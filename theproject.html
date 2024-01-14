@@ -17,9 +17,8 @@
 
 <select id="myselect" onchange="change_myselect(this.value)">
   <option value="">Choose an option:</option>
-  <option value="s">Customers</option>
-  <option value="Store">Store</option>
-  <option value="suppliers">Suppliers</option>
+  <option value="s">s</option>
+  <option value="Store">Store</option>  
 </select>
 
 <p id="demo"></p>
@@ -37,7 +36,7 @@ function change_myselect(sel) {
     text += "</table>"    
     document.getElementById("demo").innerHTML = text;
   }
-  xmlhttp.open("POST", "123.json", true);
+  xmlhttp.open("POST", "https://jl51988.github.io/jl51988_001/123.json", true);
   xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
   xmlhttp.send("x=" + dbParam);
 }
