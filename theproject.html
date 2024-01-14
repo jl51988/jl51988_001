@@ -11,36 +11,49 @@
 </head>
 <body>
 
+  <h1>Display JSON Data as Table.</h1>
+  <button onclick="showTable()">Show List</button>
+  <hr>
 
-<h2 style="color: rgb(255,153,153)">Make a table based on the value of a drop down menu.</h2>
-
-
-<select id="myselect" onchange="change_myselect(this.value)">
-  <option value="">Choose an option:</option>
-  <option value="s">s</option>
-  <option value="Store">Store</option>  
-</select>
-
-<p id="demo"></p>
-
-<script>
-function change_myselect(sel) {
-  const dbParam = JSON.stringify({table:sel,limit:20});
-  const xmlhttp = new XMLHttpRequest();
-  xmlhttp.onload = function() {
-    myObj = JSON.parse(this.responseText);
-    text = "<table border='2'>"
-    for (x in myObj) {
-      text += "<tr><td>" + myObj[x].name + "</td></tr>";
+  <script>
+    function showTable(){
+      fetch("https://www.tutorialstonight.com/lib/examples/students.json")
+        .then(response => response.json())
+        .then(data => createTable(data));
     }
-    text += "</table>"    
-    document.getElementById("demo").innerHTML = text;
-  }
-  xmlhttp.open("POST", "https://jl51988.github.io/jl51988_001/123.json", true);
-  xmlhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-  xmlhttp.send("x=" + dbParam);
-}
-</script>
+    
+    function createTable(data) {
+      var table = "<table border=1>";
+      // add a row for name and marks
+      table += `<tr>
+                  <th>Name</th>
+                  <th colspan="4">Marks</th>
+                </tr>`;
+      // now add another row to show subject
+      table += `<tr>
+                  <th></th>
+                  <th>Math</th>
+                  <th>English</th>
+                  <th>Chemistry</th>
+                  <th>Physics</th>
+                </tr>`;
+      // now loop through students
+      // show their name and marks
+      var tr = "";
+      for(let i = 0; i < data.result.length; i++) {
+        tr += "<tr>";
+        tr += `<td>${data.result[i].name}</td>`;
+        for (var key in data.result[i].marks) {
+          tr += `<td>${data.result[i].marks[key]}</td>`;
+        }
+        tr += "</tr>"
+      }
+      table += tr + "</table>";
 
+      // append table to body
+      document.body.innerHTML += table;
+    }
+  </script>
+  
 </body>
 </html>
